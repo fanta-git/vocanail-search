@@ -1,7 +1,6 @@
 import searchVideos from "@/foundataions/searchVideos";
-import { Grid, GridItem, Image } from "@chakra-ui/react";
-
-import Link from "next/link";
+import { Grid, GridItem } from "@chakra-ui/react";
+import ThumbnailItem from "./ThumbnailItem";
 
 type Props = {
   keyword: string;
@@ -15,22 +14,9 @@ export default function ResultThumbnails (props: Props) {
     <Grid templateColumns='repeat(5, 1fr)' gap={2}>
       {resultVideos.map(v => (
         <GridItem key={v.contentId}>
-          {getThumbnail(v)}
+          <ThumbnailItem video={v}/>
         </GridItem>
       ))}
     </Grid>
-  );
-}
-
-function getThumbnail(video: VideoData) {
-  return (
-    <Link href={`https://www.nicovideo.jp/watch/${video.contentId}`} target="_blank">
-      <Image
-        src={video.thumbnailUrl}
-        alt={video.title}
-        aspectRatio={"16 / 9"}
-        fit={"cover"}
-      />
-    </Link>
   );
 }
