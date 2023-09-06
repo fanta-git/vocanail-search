@@ -12,15 +12,17 @@ const FILE_NAME = 'gte1m-20230904-wi_ja.csv';
 lunr(function () {
     this.use(lunr.ja);
 
-    this.ref("contentId");
+    this.ref("id");
     this.field("introduction");
     this.field("introduction_ja");
 
+    let id = 0;
     fs.createReadStream(path.join(__dirname, FILE_NAME))
         .pipe(csv())
         .on('data', data => {
-            this.add(data);
-            fs.writeFileSync(`./public/fake-api/video/${data.contentId}.json`, JSON.stringify(data));
+            this.add({ ...data, id });
+            fs.writeFileSync(`./public/fake-api/video/${id}.json`, JSON.stringify(data));
+            id++;
         })
         .on('end', () => {
             fs.writeFileSync('./src/consts/indexed.json', JSON.stringify(this.build().toJSON()));
