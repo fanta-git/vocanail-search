@@ -1,4 +1,4 @@
-import searchVideos from "@/foundataions/searchVideos";
+import searchVideos from "@/foundations/searchVideos";
 import { Grid, GridItem } from "@chakra-ui/react";
 import ThumbnailItem from "./ThumbnailItem";
 
