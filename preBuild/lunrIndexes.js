@@ -18,7 +18,10 @@ lunr(function () {
 
     fs.createReadStream(path.join(__dirname, FILE_NAME))
         .pipe(csv())
-        .on('data', data => this.add(data))
+        .on('data', data => {
+            this.add(data);
+            fs.writeFileSync(`./public/fake-api/video/${data.contentId}.json`, JSON.stringify(data));
+        })
         .on('end', () => {
             fs.writeFileSync('./src/consts/indexed.json', JSON.stringify(this.build().toJSON()));
         });

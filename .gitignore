@@ -36,3 +36,5 @@ yarn-error.log*
 next-env.d.ts
 
 /src/consts/indexed.json
+/public/fake-api/video/*
+!/public/fake-api/video/.gitkeep

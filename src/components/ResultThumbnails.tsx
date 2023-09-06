@@ -12,9 +12,9 @@ export default function ResultThumbnails (props: Props) {
 
   return (
     <Grid templateColumns='repeat(5, 1fr)' gap={2}>
-      {resultVideos.map(v => (
-        <GridItem key={v.contentId}>
-          <ThumbnailItem video={v}/>
+      {resultVideos.map(id => (
+        <GridItem key={id}>
+          <ThumbnailItem id={id} />
         </GridItem>
       ))}
     </Grid>
