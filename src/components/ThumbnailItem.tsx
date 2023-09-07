@@ -1,6 +1,7 @@
-import { Center, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react";
+import { Image, useDisclosure } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
+import VideoModal from "./VideoModal";
 
 type Props = {
   id: string;
@@ -44,23 +45,11 @@ function ThumbnailItemInner(props: Props) {
         fit={"cover"}
       />
 
-      <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>{video.title}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Center>
-              <Image
-                src={video.thumbnailUrl}
-                alt={video.title}
-                aspectRatio={"16 / 9"}
-                fit={"cover"}
-              />
-            </Center>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <VideoModal
+        isOpen={isOpen}
+        onClose={onClose}
+        video={video}
+      />
     </>
   );
 }
