@@ -15,13 +15,48 @@ lunr(function () {
     this.ref("id");
     this.field("introduction");
     this.field("introduction_ja");
+    this.field("lyrics.en.value", {
+        boost: 0.5,
+        extractor: data => data.lyrics.en.value,
+    });
+    this.field("lyrics.ja.value", {
+        boost: 0.5,
+        extractor: data => data.lyrics.ja.value,
+    });
 
     let id = 0;
     fs.createReadStream(path.join(__dirname, FILE_NAME))
         .pipe(csv())
         .on('data', data => {
-            this.add({ ...data, id });
-            fs.writeFileSync(`./public/fake-api/video/${id}.json`, JSON.stringify(data));
+            const {
+                'lyrics.ja.source': lyricsJaSource,
+                'lyrics.ja.url': lyricsJaUrl,
+                'lyrics.ja.value': lyricsJaValue,
+                'lyrics.en.source': lyricsEnSource,
+                'lyrics.en.url': lyricsEnUrl,
+                'lyrics.en.value': lyricsEnValue,
+                ...rest
+            } = data;
+
+            const formatted = {
+                ...rest,
+                id,
+                lyrics: {
+                    ja: {
+                        source: lyricsJaSource,
+                        url: lyricsJaUrl,
+                        value: lyricsJaValue.replaceAll('\\n', '\n'),
+                    },
+                    en: {
+                        source: lyricsEnSource,
+                        url: lyricsEnUrl,
+                        value: lyricsEnValue.replaceAll('\\n', '\n'),
+                    },
+                },
+            }
+
+            this.add(formatted);
+            fs.writeFileSync(`./public/fake-api/video/${id}.json`, JSON.stringify(formatted));
             id++;
         })
         .on('end', () => {
