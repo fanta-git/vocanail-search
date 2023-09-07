@@ -14,13 +14,14 @@ const TabPanelStyle = {
 
 export default function ModalContentTabs (props: Props) {
   const { video } = props;
+  const hasLyrics = video.lyrics.ja.value || video.lyrics.en.value;
 
   return (
     <Tabs variant={"soft-rounded"} size={"sm"}>
       <TabList>
         <Tab>プレイヤー</Tab>
         <Tab>キャプション</Tab>
-        <Tab>歌詞</Tab>
+        <Tab isDisabled={!hasLyrics}>歌詞</Tab>
       </TabList>
 
       <TabPanels>
