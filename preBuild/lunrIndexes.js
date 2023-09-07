@@ -7,7 +7,7 @@ require('lunr-languages/lunr.stemmer.support')(lunr);
 require("lunr-languages/tinyseg")(lunr);
 require('lunr-languages/lunr.ja')(lunr);
 
-const FILE_NAME = 'gte1m-20230904-wi_ja.csv';
+const FILE_NAME = 'gte1m-20230904-wi_ja_vdb.csv';
 
 lunr(function () {
     this.use(lunr.ja);
