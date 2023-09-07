@@ -4,14 +4,15 @@ type Props = {
   id: string;
   width: number;
   height: number;
+  style?: CSSProperties;
 };
 
 export default function NicovideoPlayer (props: Props) {
-  const { id, width, height } = props;
+  const { id, width, height, style = {} } = props;
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [styleMaxWidth, setStyleMaxWidth] = useState<CSSProperties>({});
-  const [styleSize, setStyleSize] = useState<CSSProperties>({});
+  const [screenWidth, setScreenWidth] = useState<CSSProperties['width']>();
+  const [screenHeight, setScreenHeight] = useState<CSSProperties['height']>();
   const [isLandscape, setIsLandScape] = useState<boolean>(false);
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
 
@@ -21,6 +22,8 @@ export default function NicovideoPlayer (props: Props) {
     top: 0,
     left: isLandscape ? 0 : '100%',
     position: 'fixed',
+    width: screenWidth,
+    height: screenHeight,
     zIndex: 2147483647,
     maxWidth: 'none',
     transformOrigin: '0% 0%',
@@ -29,18 +32,16 @@ export default function NicovideoPlayer (props: Props) {
     WebkitTransform: isLandscape ? 'none' : 'rotate(90deg)',
   } : {};
 
-  const style = Object.assign({ border: 'none' }, styleMaxWidth, styleSize, styleFullScreen);
+  const margedStyle = {
+    border: 'none',
+    maxWidth: '100%',
+    ...style,
+    ...styleFullScreen,
+  };
 
   useEffect(() => {
-    const iframeElement = iframeRef.current;
-    if (iframeElement === null) return;
-
-    if (window.getComputedStyle(iframeElement).getPropertyValue('max-width') === 'none') {
-      setStyleMaxWidth({ maxWidth: '100%' });
-    }
-
     const onMessage = (event: MessageEvent<any>) => {
-      if (event.source !== iframeElement.contentWindow) return;
+      if (!iframeRef.current || event.source !== iframeRef.current.contentWindow) return;
       if (event.data.eventName === 'enterProgrammaticFullScreen') {
         setIsFullScreen(true);
       } else if (event.data.eventName === 'exitProgrammaticFullScreen') {
@@ -56,8 +57,7 @@ export default function NicovideoPlayer (props: Props) {
   }, []);
 
   useLayoutEffect(() => {
-    const iframeElement = iframeRef.current;
-    if (iframeElement === null || !isFullScreen) return;
+    if (!isFullScreen) return;
 
     const initialScrollX = window.scrollX;
     const initialScrollY = window.scrollY;
@@ -68,15 +68,12 @@ export default function NicovideoPlayer (props: Props) {
       if (ended) return;
 
       const isLandscape = window.innerWidth >= window.innerHeight;
-      const width = `${isLandscape ? window.innerWidth : window.innerHeight}px`;
-      const height = `${isLandscape ? window.innerHeight : window.innerWidth}px`;
-
-      if (iframeElement.style.width !== width || iframeElement.style.height !== height) {
-        setStyleSize({ width, height });
-        window.scrollTo(0, 0);
-      }
+      const windowWidth = `${isLandscape ? window.innerWidth : window.innerHeight}px`;
+      const windowHeight = `${isLandscape ? window.innerHeight : window.innerWidth}px`;
 
       setIsLandScape(isLandscape);
+      setScreenWidth(windowWidth);
+      setScreenHeight(windowHeight);
       timer = setTimeout(startPollingResize, 200);
     }
 
@@ -97,15 +94,19 @@ export default function NicovideoPlayer (props: Props) {
     };
   }, [isFullScreen]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [screenWidth, screenHeight]);
+
   return (
     <iframe
       ref={iframeRef}
-      allowFullScreen={true}
-      allow="autoplay"
-      style={style}
+      src={src}
       width={width}
       height={height}
-      src={src}
+      style={margedStyle}
+      allowFullScreen
+      allow="autoplay"
     />
   );
 }
