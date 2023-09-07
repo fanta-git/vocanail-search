@@ -1,12 +1,12 @@
 import searchVideos from "@/foundations/searchVideos";
 import { Grid, GridItem } from "@chakra-ui/react";
-import ThumbnailItem from "./ThumbnailItem";
+import ThumbnailItem from "./resultItem/ThumbnailItem";
 
 type Props = {
   keyword: string;
 };
 
-export default function ResultThumbnails (props: Props) {
+export default function ResultField (props: Props) {
   const { keyword } = props;
   const resultVideos = searchVideos(keyword);
 

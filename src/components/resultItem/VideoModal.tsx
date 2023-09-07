@@ -1,7 +1,7 @@
 import { Center, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { CSSProperties } from "react";
-import NicovideoPlayer from "./NicovideoPlayer";
-import YouTubePlayer from "./YouTubePlayer";
+import NicovideoPlayer from "@/components/embedPlayer/NicovideoPlayer";
+import YouTubePlayer from "@/components/embedPlayer/YouTubePlayer";
 
 type Props = {
   isOpen: boolean;
