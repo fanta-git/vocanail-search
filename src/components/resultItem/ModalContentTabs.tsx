@@ -1,11 +1,16 @@
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@chakra-ui/react";
-import EmbedPlayerTabs from "./EmbedPlayerTabs";
+import { Tab, TabList, TabPanel, TabPanelProps, TabPanels, Tabs } from "@chakra-ui/react";
 import CaptionTabs from "./CaptionTabs";
+import EmbedPlayerTabs from "./EmbedPlayerTabs";
 import LyricTabs from "./LyricTabs";
 
 type Props = {
   video: VideoData;
 };
+
+const TabPanelStyle = {
+  px: 0,
+  pb: 0,
+} satisfies TabPanelProps;
 
 export default function ModalContentTabs (props: Props) {
   const { video } = props;
@@ -19,13 +24,13 @@ export default function ModalContentTabs (props: Props) {
       </TabList>
 
       <TabPanels>
-        <TabPanel p={0}>
+        <TabPanel {...TabPanelStyle}>
           <EmbedPlayerTabs video={video} />
         </TabPanel>
-        <TabPanel p={0}>
+        <TabPanel {...TabPanelStyle}>
           <CaptionTabs video={video} />
         </TabPanel>
-        <TabPanel p={0}>
+        <TabPanel {...TabPanelStyle}>
           <LyricTabs video={video} />
         </TabPanel>
       </TabPanels>
