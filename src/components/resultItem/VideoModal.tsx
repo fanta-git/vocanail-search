@@ -1,27 +1,11 @@
-import { Center, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { CSSProperties } from "react";
-import NicovideoPlayer from "@/components/embedPlayer/NicovideoPlayer";
-import YouTubePlayer from "@/components/embedPlayer/YouTubePlayer";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/react";
+import ModalContentTabs from "./ModalContentTabs";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
   video: VideoData;
 };
-
-const PLAYER_SIZE = {
-  width: 480,
-  height: 270,
-} as const;
-
-const EMBED_WRAPPER_STYLE = {
-  aspectRatio: '16 / 9',
-} satisfies CSSProperties;
-
-const EMBED_STYLE = {
-  height: '100%',
-  width: '100%',
-} satisfies CSSProperties;
 
 export default function VideoModal (props: Props) {
   const { isOpen, onClose, video } = props;
@@ -33,25 +17,7 @@ export default function VideoModal (props: Props) {
         <ModalHeader>{video.title}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Tabs variant={"enclosed"}>
-            <TabList>
-              <Tab>ニコニコ動画</Tab>
-              <Tab isDisabled={!video.ytId}>YouTube</Tab>
-            </TabList>
-
-            <TabPanels>
-              <TabPanel>
-                <Center style={EMBED_WRAPPER_STYLE}>
-                  <NicovideoPlayer id={video.nvId} {...PLAYER_SIZE} style={EMBED_STYLE} />
-                </Center>
-              </TabPanel>
-              <TabPanel>
-                <Center style={EMBED_WRAPPER_STYLE}>
-                  <YouTubePlayer id={video.ytId} {...PLAYER_SIZE} style={EMBED_STYLE} />
-                </Center>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+          <ModalContentTabs video={video} />
         </ModalBody>
       </ModalContent>
     </Modal>
