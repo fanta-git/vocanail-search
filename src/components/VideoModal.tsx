@@ -1,4 +1,5 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Center } from "@chakra-ui/react";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import YouTube from "react-youtube";
 import NicovideoPlayer from "./NicovideoPlayer";
 
 type Props = {
@@ -7,8 +8,15 @@ type Props = {
   video: VideoData;
 };
 
+const PLAYER_SIZE = {
+  width: 360,
+  height: 200,
+} as const;
+
 export default function VideoModal (props: Props) {
   const { isOpen, onClose, video } = props;
+
+  const [, ytId] = video.ytUrl.match(/(?:youtu\.be\/|v=)([-\w]+)/) ?? [];
 
   return (
     <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
@@ -17,9 +25,21 @@ export default function VideoModal (props: Props) {
         <ModalHeader>{video.title}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Center>
-            <NicovideoPlayer id={video.contentId} width={360} height={200} />
-          </Center>
+          <Tabs variant={"enclosed"}>
+            <TabList>
+              <Tab>ニコニコ動画</Tab>
+              <Tab isDisabled={!ytId}>YouTube</Tab>
+            </TabList>
+
+            <TabPanels>
+              <TabPanel>
+                <NicovideoPlayer id={video.contentId} {...PLAYER_SIZE} />
+              </TabPanel>
+              <TabPanel>
+                <YouTube videoId={ytId} opts={PLAYER_SIZE} />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </ModalBody>
       </ModalContent>
     </Modal>
