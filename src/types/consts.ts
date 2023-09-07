@@ -1,5 +1,5 @@
 type VideoData = {
-    contentId: string;
+    nvId: string;
     thumbnailUrl: string;
     title: string;
     viewCounter: number;
@@ -7,7 +7,7 @@ type VideoData = {
     introduction_ja: string;
     songTitle: string;
     artistString: string;
-    ytUrl: string;
+    ytId: string;
     lengthSeconds: number;
     lyrics: {
         ja: {

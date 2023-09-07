@@ -16,8 +16,6 @@ const PLAYER_SIZE = {
 export default function VideoModal (props: Props) {
   const { isOpen, onClose, video } = props;
 
-  const [, ytId] = video.ytUrl.match(/(?:youtu\.be\/|v=)([-\w]+)/) ?? [];
-
   return (
     <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -28,15 +26,15 @@ export default function VideoModal (props: Props) {
           <Tabs variant={"enclosed"}>
             <TabList>
               <Tab>ニコニコ動画</Tab>
-              <Tab isDisabled={!ytId}>YouTube</Tab>
+              <Tab isDisabled={!video.ytId}>YouTube</Tab>
             </TabList>
 
             <TabPanels>
               <TabPanel>
-                <NicovideoPlayer id={video.contentId} {...PLAYER_SIZE} />
+                <NicovideoPlayer id={video.nvId} {...PLAYER_SIZE} />
               </TabPanel>
               <TabPanel>
-                <YouTube videoId={ytId} opts={PLAYER_SIZE} />
+                <YouTube videoId={video.ytId} opts={PLAYER_SIZE} />
               </TabPanel>
             </TabPanels>
           </Tabs>
