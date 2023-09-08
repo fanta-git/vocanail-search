@@ -9,7 +9,6 @@ type Props = {
 
 const TabPanelStyle = {
   px: 0,
-  pb: 0,
 } satisfies TabPanelProps;
 
 export default function ModalContentTabs (props: Props) {

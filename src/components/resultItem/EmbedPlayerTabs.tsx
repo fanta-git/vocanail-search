@@ -1,4 +1,4 @@
-import { Center, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { Center, Tab, TabList, TabPanel, TabPanelProps, TabPanels, Tabs } from "@chakra-ui/react";
 import { CSSProperties } from "react";
 import NicovideoPlayer from "../embedPlayer/NicovideoPlayer";
 import YouTubePlayer from "../embedPlayer/YouTubePlayer";
@@ -6,6 +6,11 @@ import YouTubePlayer from "../embedPlayer/YouTubePlayer";
 type Props = {
   video: VideoData;
 };
+
+const TAB_PANEL_STYLE = {
+  px: 0,
+  pb: 0,
+} satisfies TabPanelProps;
 
 const PLAYER_SIZE = {
   width: 480,
@@ -32,12 +37,12 @@ export default function EmbedPlayerTabs(props: Props) {
       </TabList>
 
       <TabPanels>
-        <TabPanel>
+        <TabPanel {...TAB_PANEL_STYLE}>
           <Center style={EMBED_WRAPPER_STYLE}>
             <NicovideoPlayer id={video.nvId} {...PLAYER_SIZE} style={EMBED_STYLE} />
           </Center>
         </TabPanel>
-        <TabPanel>
+        <TabPanel {...TAB_PANEL_STYLE}>
           <Center style={EMBED_WRAPPER_STYLE}>
             <YouTubePlayer id={video.ytId} {...PLAYER_SIZE} style={EMBED_STYLE} />
           </Center>
