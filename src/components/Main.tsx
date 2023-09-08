@@ -1,12 +1,12 @@
-import { HStack, Input } from '@chakra-ui/react'
-import { useState } from 'react';
+import { useQueryState } from '@/hooks/useQueryState';
+import { HStack, Input } from '@chakra-ui/react';
 import ResultField from './ResultField';
 
 type Props = {};
 
 export default function Main (props: Props) {
   const {  } = props;
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useQueryState<string>("s", { lazyTime: 1e3 });
 
   return (
     <>
