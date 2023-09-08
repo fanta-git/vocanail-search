@@ -1,4 +1,4 @@
-import { Center, Tab, TabList, TabPanel, TabPanelProps, TabPanels, Tabs } from "@chakra-ui/react";
+import { AspectRatio, Container, Tab, TabList, TabPanel, TabPanelProps, TabPanels, Tabs } from "@chakra-ui/react";
 import { CSSProperties } from "react";
 import NicovideoPlayer from "../embedPlayer/NicovideoPlayer";
 import YouTubePlayer from "../embedPlayer/YouTubePlayer";
@@ -12,19 +12,14 @@ const TAB_PANEL_STYLE = {
   pb: 0,
 } satisfies TabPanelProps;
 
-const PLAYER_SIZE = {
+const EMBED_PROPS = {
   width: 480,
   height: 270,
+  style: {
+    height: '100%',
+    width: '100%',
+  },
 } as const;
-
-const EMBED_WRAPPER_STYLE = {
-  aspectRatio: '16 / 9',
-} satisfies CSSProperties;
-
-const EMBED_STYLE = {
-  height: '100%',
-  width: '100%',
-} satisfies CSSProperties;
 
 export default function EmbedPlayerTabs(props: Props) {
   const { video } = props;
@@ -38,14 +33,18 @@ export default function EmbedPlayerTabs(props: Props) {
 
       <TabPanels>
         <TabPanel {...TAB_PANEL_STYLE}>
-          <Center style={EMBED_WRAPPER_STYLE}>
-            <NicovideoPlayer id={video.nvId} {...PLAYER_SIZE} style={EMBED_STYLE} />
-          </Center>
+          <Container {...TAB_PANEL_STYLE}>
+            <AspectRatio ratio={16 / 9}>
+              <NicovideoPlayer id={video.nvId} {...EMBED_PROPS} />
+            </AspectRatio>
+          </Container>
         </TabPanel>
         <TabPanel {...TAB_PANEL_STYLE}>
-          <Center style={EMBED_WRAPPER_STYLE}>
-            <YouTubePlayer id={video.ytId} {...PLAYER_SIZE} style={EMBED_STYLE} />
-          </Center>
+          <Container {...TAB_PANEL_STYLE}>
+            <AspectRatio ratio={16 / 9}>
+              <YouTubePlayer id={video.ytId} {...EMBED_PROPS} />
+            </AspectRatio>
+          </Container>
         </TabPanel>
       </TabPanels>
     </Tabs>
