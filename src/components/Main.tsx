@@ -6,7 +6,7 @@ type Props = {};
 
 export default function Main (props: Props) {
   const {  } = props;
-  const [keyword, setKeyword] = useQueryState<string>("s", { lazyTime: 1e3 });
+  const [keyword, setKeyword] = useQueryState("s", { lazyTime: 1e3 });
 
   return (
     <>

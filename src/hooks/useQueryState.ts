@@ -5,7 +5,7 @@ type Options = {
   lazyTime?: number;
 };
 
-export const useQueryState = <State extends string>(name: string, options?: Options) => {
+export const useQueryState = (name: string, options?: Options) => {
   const { lazyTime } = options ?? {};
   const router = useRouter();
 
@@ -16,7 +16,7 @@ export const useQueryState = <State extends string>(name: string, options?: Opti
     const query = router.query[name];
     const queryState = Array.isArray(query) ? query[0] : query;
     if (queryState !== undefined) {
-      setState(queryState as State);
+      setState(queryState);
     }
   }, [name, router]);
 
