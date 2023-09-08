@@ -21,8 +21,8 @@ export default function LyricTabs(props: Props) {
         {
           langs.map(lang => (
             /* calcは消せたら消したいがCSSがわからないので消せない */
-            <TabPanel key={lang} maxH={"calc(100vh - 22em)"} overflowY={"scroll"} px={0} pb={0}>
-              <Container>
+            <TabPanel key={lang} px={0} pb={0}>
+              <Container maxH={"calc(100vh - 22rem)"} overflowY={"scroll"}>
                 {video.lyrics[lang].value.split("\n").flatMap((v, i) => (
                   i ? [<br key={i} />, <>{v}</>] : [<>{v}</>]
                 ))}

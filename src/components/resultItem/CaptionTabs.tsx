@@ -4,10 +4,18 @@ type Props = {
   video: VideoData;
 };
 
-const TAB_PANEL_STYLE = {
-  px: 0,
-  pb: 0,
-} satisfies TabPanelProps;
+const TABS_CORE = [
+  {
+    tabTitle: '日本語',
+    intrKey: 'introduction_ja',
+    delimiter: /(?<=。)/,
+  },
+  {
+    tabTitle: 'English',
+    intrKey: 'introduction',
+    delimiter: /(?<=\.)/,
+  },
+] as const;
 
 export default function CaptionTabs(props: Props) {
   const { video } = props;
@@ -15,25 +23,23 @@ export default function CaptionTabs(props: Props) {
   return (
     <Tabs variant={"enclosed"}>
       <TabList>
-        <Tab>日本語</Tab>
-        <Tab>English</Tab>
+        {TABS_CORE.map(({ tabTitle, intrKey }) => (
+          <Tab key={intrKey} isDisabled={!video[intrKey]}>
+            {tabTitle}
+          </Tab>
+        ))}
       </TabList>
 
       <TabPanels>
-        <TabPanel {...TAB_PANEL_STYLE}>
-          <Container>
-            {video.introduction_ja.split(/(?<=。)/).flatMap((v, i) => (
-              i ? [<br key={i} />, <>{v}</>] : [<>{v}</>]
-            ))}
-          </Container>
-        </TabPanel>
-        <TabPanel {...TAB_PANEL_STYLE}>
-          <Container>
-            {video.introduction.split(/(?<=\.)/).flatMap((v, i) => (
-              i ? [<br key={i} />, <>{v}</>] : [<>{v}</>]
-            ))}
-          </Container>
-        </TabPanel>
+        {TABS_CORE.map(({ intrKey, delimiter }) => (
+          <TabPanel key={intrKey} px={0} pb={0}>
+            <Container maxH={"calc(100vh - 22rem)"} overflowY={"scroll"}>
+              {video[intrKey].split(delimiter).flatMap((v, i) => (
+                i ? [<br key={i} />, <>{v}</>] : [<>{v}</>]
+              ))}
+            </Container>
+          </TabPanel>
+        ))}
       </TabPanels>
     </Tabs>
   );
