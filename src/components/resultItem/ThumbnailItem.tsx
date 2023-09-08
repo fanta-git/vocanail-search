@@ -1,4 +1,4 @@
-import { Image, useDisclosure } from "@chakra-ui/react";
+import { AspectRatio, Image, useDisclosure } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
 import VideoModal from "./VideoModal";
@@ -37,13 +37,14 @@ function ThumbnailItemInner(props: Props) {
 
   return (
     <>
-      <Image
-        onClick={onOpen}
-        src={video.thumbnailUrl}
-        alt={video.title}
-        aspectRatio={"16 / 9"}
-        fit={"cover"}
-      />
+      <AspectRatio ratio={16 / 9}>
+        <Image
+          onClick={onOpen}
+          src={video.thumbnailUrl}
+          alt={video.title}
+          fit={"cover"}
+        />
+      </AspectRatio>
 
       <VideoModal
         isOpen={isOpen}

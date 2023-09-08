@@ -1,5 +1,5 @@
 import searchVideos from "@/foundations/searchVideos";
-import { Grid, GridItem } from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react";
 import ThumbnailItem from "./resultItem/ThumbnailItem";
 
 type Props = {
@@ -11,12 +11,10 @@ export default function ResultField (props: Props) {
   const resultVideos = searchVideos(keyword);
 
   return (
-    <Grid templateColumns='repeat(5, 1fr)' gap={2}>
+    <SimpleGrid w={"100%"} columns={[3, 4]} gap={[2, 4]}>
       {resultVideos.map(id => (
-        <GridItem key={id}>
-          <ThumbnailItem id={id} />
-        </GridItem>
+        <ThumbnailItem key={id} id={id} />
       ))}
-    </Grid>
+    </SimpleGrid>
   );
 }
