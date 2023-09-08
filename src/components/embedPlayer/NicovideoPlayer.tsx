@@ -95,8 +95,9 @@ export default function NicovideoPlayer (props: Props) {
   }, [isFullScreen]);
 
   useEffect(() => {
+    if (!isFullScreen) return;
     window.scrollTo(0, 0);
-  }, [screenWidth, screenHeight]);
+  }, [screenWidth, screenHeight, isFullScreen]);
 
   return (
     <iframe
