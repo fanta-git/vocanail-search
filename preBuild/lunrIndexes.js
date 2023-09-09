@@ -25,6 +25,7 @@ lunr(function () {
     });
 
     let id = 0;
+    const all = {};
     fs.createReadStream(path.join(__dirname, FILE_NAME))
         .pipe(csv())
         .on('data', data => {
@@ -56,10 +57,12 @@ lunr(function () {
             }
 
             this.add(formatted);
+            all[id] = rest.thumbnailUrl;
             fs.writeFileSync(`./public/fake-api/video/${id}.json`, JSON.stringify(formatted));
             id++;
         })
         .on('end', () => {
             fs.writeFileSync('./src/consts/indexed.json', JSON.stringify(this.build().toJSON()));
+            fs.writeFileSync('./src/consts/thumbnails.json', JSON.stringify(all));
         });
 });

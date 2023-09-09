@@ -1,6 +1,6 @@
+import thumbnails from '@/consts/thumbnails.json';
 import { AspectRatio, Image } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import VideoModal from "./VideoModal";
 
 type Props = {
@@ -10,20 +10,6 @@ type Props = {
 };
 
 export default function ThumbnailItem(props: Props) {
-  return (
-    <Suspense fallback={<ThumbnailItemFallback />}>
-      <ThumbnailItemInner {...props} />
-    </Suspense>
-  );
-}
-
-function ThumbnailItemFallback() {
-  return (
-    <>Loading...</>
-  );
-}
-
-function ThumbnailItemInner(props: Props) {
   const { id, activeModalId, setActiveModalId } = props;
   const [canBack, setCanBack] = useState(false);
 
@@ -42,31 +28,22 @@ function ThumbnailItemInner(props: Props) {
     }
   }
 
-  const { data: video } = useQuery<VideoData>({
-    queryKey: [`key:${id}`],
-    queryFn: () =>
-      fetch(`/fake-api/video/${id}.json`)
-        .then(res => res.json()),
-  });
-
-  // TODO: なくす
-  if (!video) return <></>
+  const thumbnailUrl = ((thumbnails as any)[id] as string | undefined) ?? "";
 
   return (
     <>
       <AspectRatio ratio={16 / 9}>
         <Image
           onClick={onOpen}
-          src={video.thumbnailUrl}
-          alt={video.title}
-          fit={"cover"}
+          src={thumbnailUrl}
+          alt={"動画サムネイル"}
         />
       </AspectRatio>
 
       <VideoModal
         isOpen={isOpen}
         onClose={onClose}
-        video={video}
+        id={id}
       />
     </>
   );
