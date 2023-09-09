@@ -1,10 +1,12 @@
-import { AspectRatio, Image, useDisclosure } from "@chakra-ui/react";
+import { AspectRatio, Image } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import VideoModal from "./VideoModal";
 
 type Props = {
   id: string;
+  activeModalId: string;
+  setActiveModalId: (id: string) => void;
 };
 
 export default function ThumbnailItem(props: Props) {
@@ -22,9 +24,24 @@ function ThumbnailItemFallback() {
 }
 
 function ThumbnailItemInner(props: Props) {
-  const { id } = props;
+  const { id, activeModalId, setActiveModalId } = props;
+  const [canBack, setCanBack] = useState(false);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const isOpen = activeModalId === id;
+  const onOpen = () => {
+    setCanBack(true);
+    setActiveModalId(id);
+  };
+
+  const onClose = () => {
+    if (canBack) {
+      window.history.back();
+      setCanBack(false);
+    } else {
+      setActiveModalId("");
+    }
+  }
+
   const { data: video } = useQuery<VideoData>({
     queryKey: [`key:${id}`],
     queryFn: () =>

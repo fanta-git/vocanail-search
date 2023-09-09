@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 type Options = {
@@ -7,31 +6,26 @@ type Options = {
 
 export const useQueryState = (name: string, options?: Options) => {
   const { lazyTime } = options ?? {};
-  const router = useRouter();
 
-  const [state, setState] = useState("");
-
-  useEffect(() => {
-    if (!router.isReady) return;
-    const query = router.query[name];
-    const queryState = Array.isArray(query) ? query[0] : query;
-    if (queryState !== undefined) {
-      setState(queryState);
-    }
-  }, [name, router]);
+  const [state, setState] = useState<string>();
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get(name) === state) return;
+    const queryState = new URLSearchParams(window.location.search).get(name) ?? "";
+    setState(queryState);
+  }, [name]);
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get(name) === state) return;
 
     if (state) {
-      params.set(name, state);
+      url.searchParams.set(name, state);
     } else {
-      params.delete(name);
+      url.searchParams.delete(name);
     }
 
     const replaceState = () => {
-      window.history.replaceState(window.history.state, '', `?${params.toString()}`);
+      window.history.replaceState(window.history.state, '', url);
     };
 
     if (lazyTime === undefined) {
@@ -40,7 +34,7 @@ export const useQueryState = (name: string, options?: Options) => {
       const timer = setTimeout(replaceState, lazyTime);
       return () => clearTimeout(timer);
     }
-  }, [lazyTime, name, router, state]);
+  }, [lazyTime, name, state]);
 
   return [state, setState] as const;
 }
