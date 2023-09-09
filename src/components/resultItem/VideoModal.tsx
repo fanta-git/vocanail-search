@@ -1,3 +1,4 @@
+import { placeholderData } from "@/consts/video";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
@@ -26,11 +27,17 @@ export default function VideoModal (props: Props) {
 
 function VideoModalInner (props: Props) {
   const { id } = props;
-  const { data: video } = useQuery(
+
+  const { data: video } = useQuery<VideoData>(
     ["video", id],
     () => fetch(`/fake-api/video/${id}.json`)
-      .then(res => res.json())
+      .then(res => res.json()),
+    { placeholderData: { ...placeholderData, id } }
   );
+
+  if (!video) {
+    return <></>;
+  }
 
   return (
     <>

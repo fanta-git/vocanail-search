@@ -1,4 +1,4 @@
-import { AspectRatio, Container, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { AspectRatio, Box, Container, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import NicovideoPlayer from "../embedPlayer/NicovideoPlayer";
 import YouTubePlayer from "../embedPlayer/YouTubePlayer";
 
@@ -37,15 +37,18 @@ export default function EmbedPlayerTabs(props: Props) {
           <TabPanel key={idKey} px={0} pb={0}>
             <Container px={0} pb={0}>
               <AspectRatio ratio={16 / 9}>
-                <Player
-                  id={video[idKey]}
-                  width={480}
-                  height={270}
-                  style={{
-                    height: '100%',
-                    width: '100%',
-                  }}
-                />
+                {video[idKey]
+                  ? <Player
+                    id={video[idKey]}
+                    width={480}
+                    height={270}
+                    style={{
+                      height: '100%',
+                      width: '100%',
+                    }}
+                  />
+                  : <Box bgColor={"black"} />
+                }
               </AspectRatio>
             </Container>
           </TabPanel>

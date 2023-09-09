@@ -1,4 +1,5 @@
 type VideoData = {
+    id: string;
     nvId: string;
     thumbnailUrl: string;
     title: string;
