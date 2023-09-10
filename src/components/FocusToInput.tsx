@@ -1,12 +1,18 @@
-import { ChevronUpIcon } from "@chakra-ui/icons";
+import { SearchIcon } from "@chakra-ui/icons";
 import { Fade, IconButton } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { RefObject, useCallback, useEffect, useState } from "react";
 
-export default function ScrollToTop () {
+type Props = {
+  inputRef: RefObject<HTMLInputElement>;
+};
+
+export default function FocusToInput (props: Props) {
+  const { inputRef } = props;
+
   const [showButton, setShowButton] = useState(false);
 
   const watchScroll = useCallback(() => {
-    const basePosition = 200;
+    const basePosition = window.innerHeight / 3;
     const scrollPosition = window.scrollY;
     setShowButton(basePosition <= scrollPosition);
   }, [setShowButton]);
@@ -18,19 +24,24 @@ export default function ScrollToTop () {
     };
   }, [watchScroll]);
 
+  const onClick = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    inputRef.current?.focus({ preventScroll: true });
+  }, [inputRef]);
+
   return (
     <Fade in={showButton}>
       <IconButton
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        onClick={onClick}
         colorScheme="teal"
-        fontSize={40}
+        fontSize={26}
         position="fixed"
         right={6}
         bottom={6}
         size={"lg"}
         isRound
         aria-label="Scroll to tops"
-        icon={<ChevronUpIcon />}
+        icon={<SearchIcon />}
       />
     </Fade>
   );
