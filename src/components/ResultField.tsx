@@ -1,6 +1,7 @@
 import searchVideos from "@/foundations/searchVideos";
 import { useHashState } from "@/hooks/useHashState";
 import { SimpleGrid } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import ThumbnailItem from "./resultItem/ThumbnailItem";
 
 type Props = {
@@ -9,7 +10,11 @@ type Props = {
 
 export default function ResultField (props: Props) {
   const { keyword } = props;
-  const resultVideos = searchVideos(keyword);
+  const { data: resultVideos = [] } = useQuery(
+    ["search", keyword],
+    () => searchVideos(keyword),
+    { staleTime: Infinity }
+  );
   const [activeModalId = "", setActiveModalId] = useHashState();
 
   return (

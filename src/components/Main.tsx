@@ -1,7 +1,7 @@
 import { useQueryState } from '@/hooks/useQueryState';
 import { SearchIcon } from '@chakra-ui/icons';
-import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
-import { useRef } from 'react';
+import { Input, InputGroup, InputLeftElement, InputRightElement, Spinner } from '@chakra-ui/react';
+import { Suspense, memo, useDeferredValue, useRef } from 'react';
 import FocusToInput from './FocusToInput';
 import ResultField from './ResultField';
 
@@ -9,8 +9,10 @@ type Props = {};
 
 export default function Main (props: Props) {
   const {  } = props;
-  const [keyword = "", setKeyword] = useQueryState("s", { lazyTime: 1e3 });
   const inputRef = useRef<HTMLInputElement>(null);
+  const [keyword = "", setKeyword] = useQueryState("s", { lazyTime: 1e3 });
+  const deferredQuery = useDeferredValue(keyword);
+  const isDeffered = keyword !== deferredQuery;
 
   return (
     <>
@@ -25,11 +27,27 @@ export default function Main (props: Props) {
           value={keyword}
           onChange={e => setKeyword(e.target.value)}
         />
+        {isDeffered &&
+          <InputRightElement pointerEvents='none'>
+            <Spinner color={"green.600"} size={"sm"} />
+          </InputRightElement>
+        }
       </InputGroup>
-      <ResultField keyword={keyword} />
+      <ResultFieldWrapper keyword={deferredQuery} />
       <FocusToInput
         inputRef={inputRef}
       />
     </>
   );
 }
+
+const ResultFieldWrapper = memo(function ResultFieldWrapper (props: { keyword: string }) {
+  const { keyword } = props;
+
+  return (
+    <Suspense>
+      <ResultField keyword={keyword} />
+    </Suspense>
+  );
+});
+
