@@ -14,7 +14,7 @@ export default function VideoModal (props: Props) {
   const { isOpen, onClose } = props;
 
   return (
-    <Modal blockScrollOnMount={false} scrollBehavior={"inside"} size={"xl"} isOpen={isOpen} onClose={onClose}>
+    <Modal scrollBehavior={"inside"} size={"xl"} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <Suspense fallback={<>Loading...</>}>
