@@ -1,7 +1,7 @@
 import { useQueryState } from '@/hooks/useQueryState';
 import { CloseIcon, SearchIcon } from '@chakra-ui/icons';
 import { IconButton, Input, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/react';
-import { Suspense, memo, useDeferredValue, useRef } from 'react';
+import { Suspense, useDeferredValue, useRef, useState } from 'react';
 import FocusToInput from './FocusToInput';
 import ResultField from './ResultField';
 
@@ -37,21 +37,12 @@ export default function Main (props: Props) {
           />
         </InputRightElement>
       </InputGroup>
-      <ResultFieldWrapper keyword={deferredQuery} />
+      <Suspense>
+        <ResultField keyword={deferredQuery} />
+      </Suspense>
       <FocusToInput
         inputRef={inputRef}
       />
     </>
   );
 }
-
-const ResultFieldWrapper = memo(function ResultFieldWrapper (props: { keyword: string }) {
-  const { keyword } = props;
-
-  return (
-    <Suspense>
-      <ResultField keyword={keyword} />
-    </Suspense>
-  );
-});
-
