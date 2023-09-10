@@ -1,6 +1,7 @@
 import { useQueryState } from '@/hooks/useQueryState';
 import { HStack, Input } from '@chakra-ui/react';
 import ResultField from './ResultField';
+import ScrollToTop from './ScrollToTop';
 
 type Props = {};
 
@@ -14,6 +15,7 @@ export default function Main (props: Props) {
         <Input placeholder="Search..." value={keyword} onChange={e => setKeyword(e.target.value)} />
       </HStack>
       <ResultField keyword={keyword} />
+      <ScrollToTop />
     </>
   );
 }
