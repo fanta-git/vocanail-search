@@ -29,7 +29,8 @@ export default function ThumbnailItem(props: Props) {
     }
   }
 
-  const thumbnailUrl = ((thumbnails as any)[id] as string | undefined) ?? "";
+  const thumbnailUrl = ((thumbnails as any)[id] as string | undefined);
+  if (thumbnailUrl === undefined) return <></>;
 
   return (
     <>
