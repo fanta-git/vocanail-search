@@ -7,7 +7,7 @@ export default function Document() {
       <Head>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <body>
+      <body style={{ width: "100vw" }}>
         <Main />
         <NextScript />
       </body>
