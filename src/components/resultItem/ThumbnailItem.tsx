@@ -1,5 +1,5 @@
 import thumbnails from '@/consts/thumbnails.json';
-import { AspectRatio } from "@chakra-ui/react";
+import { AspectRatio, Box } from "@chakra-ui/react";
 import { useState } from "react";
 import VideoModal from "./VideoModal";
 import Image from '../Image';
@@ -36,6 +36,7 @@ export default function ThumbnailItem(props: Props) {
     <>
       <AspectRatio ratio={16 / 9} onClick={onOpen}>
         <Image
+          bgColor={"black"}
           width={130}
           height={100}
           src={thumbnailUrl}
