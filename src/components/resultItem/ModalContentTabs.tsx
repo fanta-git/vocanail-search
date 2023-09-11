@@ -4,7 +4,7 @@ import EmbedPlayerTabs from "./EmbedPlayerTabs";
 import LyricTabs from "./LyricTabs";
 
 type Props = {
-  video: VideoData;
+  video: VideoData | undefined;
 };
 
 export default function ModalContentTabs (props: Props) {
@@ -14,17 +14,17 @@ export default function ModalContentTabs (props: Props) {
     {
       tabTitle: 'プレイヤー',
       SecondTabs: EmbedPlayerTabs,
-      isDisabled: !(video.nvId || video.ytId)
+      isDisabled: !video || !(video.nvId || video.ytId)
     },
     {
       tabTitle: 'キャプション',
       SecondTabs: CaptionTabs,
-      isDisabled: !(video.introduction_ja || video.introduction)
+      isDisabled: !video || !(video.introduction_ja || video.introduction)
     },
     {
       tabTitle: '歌詞',
       SecondTabs: LyricTabs,
-      isDisabled: !(video.lyrics.ja.value || video.lyrics.en.value)
+      isDisabled: !video || !(video.lyrics.ja.value || video.lyrics.en.value)
     },
   ] as const;
 

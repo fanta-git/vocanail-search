@@ -2,10 +2,19 @@ import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { Box, Container, Link, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
 type Props = {
-  video: VideoData;
+  video: VideoData | undefined;
 };
 
-const langs = ['ja', 'en'] as const;
+const TABS_CORE = [
+  {
+    tabTitle: '日本語',
+    lang: 'ja',
+  },
+  {
+    tabTitle: 'English',
+    lang: 'en',
+  },
+] as const;
 
 export default function LyricTabs(props: Props) {
   const { video } = props;
@@ -13,15 +22,17 @@ export default function LyricTabs(props: Props) {
   return (
     <Tabs variant={"enclosed"}>
       <TabList>
-        <Tab isDisabled={!video.lyrics.ja.value}>日本語</Tab>
-        <Tab isDisabled={!video.lyrics.en.value}>English</Tab>
+        {TABS_CORE.map(({ tabTitle, lang }) => (
+          <Tab key={tabTitle} isDisabled={!video?.lyrics[lang].value}>
+            {tabTitle}
+          </Tab>
+        ))}
       </TabList>
 
       <TabPanels>
-        {
-          langs.map(lang => (
-            /* calcは消せたら消したいがCSSがわからないので消せない */
-            <TabPanel key={lang} px={0} pb={0}>
+        {TABS_CORE.map(({ lang }) => (
+          <TabPanel key={lang} px={0} pb={0}>
+            {video &&
               <Container maxH={"calc(100vh - 22rem)"} overflowY={"scroll"}>
                 {video.lyrics[lang].value.split("\n").flatMap((v, i) => (
                   i ? [<br key={i} />, <>{v}</>] : [<>{v}</>]
@@ -33,9 +44,9 @@ export default function LyricTabs(props: Props) {
                   </Link>
                 </Box>}
               </Container>
-            </TabPanel>
-          ))
-        }
+            }
+          </TabPanel>
+        ))}
       </TabPanels>
     </Tabs>
   );

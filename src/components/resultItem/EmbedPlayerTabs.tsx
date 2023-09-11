@@ -3,7 +3,7 @@ import NicovideoPlayer from "../embedPlayer/NicovideoPlayer";
 import YouTubePlayer from "../embedPlayer/YouTubePlayer";
 
 type Props = {
-  video: VideoData;
+  video: VideoData | undefined;
 };
 
 const PANELS_CORE = [
@@ -26,7 +26,7 @@ export default function EmbedPlayerTabs(props: Props) {
     <Tabs variant={"enclosed"}>
       <TabList>
         {PANELS_CORE.map(({ idKey, tabTitle }) => (
-          <Tab key={idKey} isDisabled={!video[idKey]}>
+          <Tab key={idKey} isDisabled={!video?.[idKey]}>
             {tabTitle}
           </Tab>
         ))}
@@ -37,7 +37,7 @@ export default function EmbedPlayerTabs(props: Props) {
           <TabPanel key={idKey} px={0} pb={0}>
             <Container px={0} pb={0}>
               <AspectRatio ratio={16 / 9}>
-                {video[idKey]
+                {video?.[idKey]
                   ? <Player
                     id={video[idKey]}
                     width={480}

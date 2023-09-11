@@ -1,9 +1,7 @@
-import { placeholderData } from "@/consts/video";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
-import { Suspense } from "react";
-import ModalContentTabs from "./ModalContentTabs";
 import { url } from "@/utils/config";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Skeleton, Text } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+import ModalContentTabs from "./ModalContentTabs";
 
 type Props = {
   isOpen: boolean;
@@ -12,44 +10,32 @@ type Props = {
 };
 
 export default function VideoModal (props: Props) {
-  const { isOpen, onClose } = props;
+  const { isOpen, onClose, id } = props;
+
+  const { data: video, isLoading } = useQuery<VideoData>(
+    ["video", id],
+    () => fetch(url`/fake-api/video/${id}.json`)
+      .then(res => res.json()),
+    { suspense: false, staleTime: Infinity, enabled: isOpen }
+  );
 
   return (
     <Modal scrollBehavior={"inside"} size={"xl"} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <Suspense fallback={<>Loading...</>}>
-          <VideoModalInner {...props} />
-        </Suspense>
+        <ModalHeader>
+          <Skeleton width={"calc(100% - 2rem)"} isLoaded={!isLoading}>
+            <Text>{video?.songTitle ?? "???"}</Text>
+          </Skeleton>
+          <Skeleton isLoaded={!isLoading}>
+            <Text fontSize={"sm"} color={"gray.500"}>{video?.artistString ?? "???"}</Text>
+          </Skeleton>
+        </ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <ModalContentTabs video={video} />
+        </ModalBody>
       </ModalContent>
     </Modal>
-  );
-}
-
-function VideoModalInner (props: Props) {
-  const { id } = props;
-
-  const { data: video } = useQuery<VideoData>(
-    ["video", id],
-    () => fetch(url`/fake-api/video/${id}.json`)
-      .then(res => res.json()),
-    { placeholderData: { ...placeholderData, id } }
-  );
-
-  if (!video) {
-    return <></>;
-  }
-
-  return (
-    <>
-      <ModalHeader>
-        <Text>{video.songTitle}</Text>
-        <Text fontSize={"sm"} color={"gray.500"}>{video.artistString}</Text>
-      </ModalHeader>
-      <ModalCloseButton />
-      <ModalBody>
-        <ModalContentTabs video={video} />
-      </ModalBody>
-    </>
   );
 }
