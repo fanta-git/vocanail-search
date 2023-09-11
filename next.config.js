@@ -5,7 +5,6 @@ const urlPrefix = process.env.BASE_PATH || ''
 const nextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
-  assetPrefix: urlPrefix,
   basePath: urlPrefix,
   publicRuntimeConfig: { urlPrefix },
   images: {

@@ -76,10 +76,9 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-      - name: Split branch name
+      - name: Set BASE_PATH
         env:
           REPOSITORY: ${{ github.repository }}
-        id: split
         run: echo "BASE_PATH=${REPOSITORY##*/}" >> $GITHUB_ENV
       - name: Build and export with Next.js
         run: npm run export
