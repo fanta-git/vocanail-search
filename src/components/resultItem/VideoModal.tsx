@@ -31,7 +31,7 @@ function VideoModalInner (props: Props) {
 
   const { data: video } = useQuery<VideoData>(
     ["video", id],
-    () => fetch(url(`/fake-api/video/${id}.json`))
+    () => fetch(url`/fake-api/video/${id}.json`)
       .then(res => res.json()),
     { placeholderData: { ...placeholderData, id } }
   );

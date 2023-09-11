@@ -1,7 +1,7 @@
 import { useQueryState } from '@/hooks/useQueryState';
 import { CloseIcon, SearchIcon } from '@chakra-ui/icons';
 import { IconButton, Input, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/react';
-import { Suspense, useDeferredValue, useRef, useState } from 'react';
+import { Suspense, useDeferredValue, useRef } from 'react';
 import FocusToInput from './FocusToInput';
 import ResultField from './ResultField';
 
