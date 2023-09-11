@@ -76,6 +76,13 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Split branch name
+        env:
+          BRANCH: ${{ github.ref_name }}
+        id: split
+        run: echo "::set-output name=fragment::${BRANCH##*/}"
+      - name: Set BASE_PATH
+        run: echo "BASE_PATH=${{ steps.split.outputs.fragment }}" >> $GITHUB_ENV
       - name: Build and export with Next.js
         run: npm run export
       - name: Upload artifact
