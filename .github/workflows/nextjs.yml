@@ -79,7 +79,7 @@ jobs:
       - name: Set BASE_PATH
         env:
           REPOSITORY: ${{ github.repository }}
-        run: echo "BASE_PATH=${REPOSITORY##*/}" >> $GITHUB_ENV
+        run: echo "BASE_PATH=/${REPOSITORY##*/}" >> $GITHUB_ENV
       - name: Build and export with Next.js
         run: npm run export
       - name: Upload artifact
