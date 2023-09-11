@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: github-pages
     env:
-      BASE_PATH: ${{ vars.BASE_PATH }}
+      REPOSITORY: ${{ github.repository }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -76,10 +76,6 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-      - name: Set BASE_PATH
-        env:
-          REPOSITORY: ${{ github.repository }}
-        run: echo "BASE_PATH=/${REPOSITORY##*/}" >> $GITHUB_ENV
       - name: Build and export with Next.js
         run: npm run export
       - name: Upload artifact

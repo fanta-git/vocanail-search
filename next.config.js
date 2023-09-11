@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
-const urlPrefix = process.env.BASE_PATH || ''
+const repositoryName = process.env.REPOSITORY?.split('/')[1];
+const urlPrefix = repositoryName ? `/${repositoryName}` : '';
 
 const nextConfig = {
   reactStrictMode: true,
@@ -19,6 +20,6 @@ const nextConfig = {
       },
     ],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
