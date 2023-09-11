@@ -78,9 +78,9 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Split branch name
         env:
-          BRANCH: ${{ github.ref_name }}
+          REPOSITORY: ${{ github.repository }}
         id: split
-        run: echo "BASE_PATH=${BRANCH##*/}" >> $GITHUB_ENV
+        run: echo "BASE_PATH=${REPOSITORY##*/}" >> $GITHUB_ENV
       - name: Build and export with Next.js
         run: npm run export
       - name: Upload artifact
