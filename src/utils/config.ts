@@ -1,3 +1,7 @@
 export function url(filename: string): string {
-  return (process.env.BASE_PATH ?? '') + filename
+  if (filename.startsWith('/')) {
+    return (process.env.NEXT_PUBLIC_BASE_PATH ?? '') + filename;
+  }
+
+  return filename;
 }
