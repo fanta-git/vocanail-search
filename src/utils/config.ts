@@ -17,9 +17,8 @@ import getConfig from 'next/config'
  * @see https://maku.blog/p/xjjbwes
  */
 export function url(filename: string): string {
-  if (!filename.startsWith('/')) return filename;
   const { publicRuntimeConfig } = getConfig() as {
-    publicRuntimeConfig: { urlPrefix?: string }
+    publicRuntimeConfig: { urlPrefix: string }
   }
-  return (publicRuntimeConfig.urlPrefix ?? '') + filename
+  return publicRuntimeConfig.urlPrefix + filename
 }

@@ -1,11 +1,13 @@
 /** @type {import('next').NextConfig} */
+
+const urlPrefix = process.env.BASE_PATH || ''
+
 const nextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
-  publicRuntimeConfig: {
-    assetPrefix: process.env.BASE_PATH || '',
-    basePath: process.env.BASE_PATH || '',
-  },
+  assetPrefix: urlPrefix,
+  basePath: urlPrefix,
+  publicRuntimeConfig: { urlPrefix },
   images: {
     unoptimized: true,
     remotePatterns: [
