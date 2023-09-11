@@ -3,6 +3,7 @@ import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOve
 import { useQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
 import ModalContentTabs from "./ModalContentTabs";
+import { url } from "@/utils/config";
 
 type Props = {
   isOpen: boolean;
@@ -30,7 +31,7 @@ function VideoModalInner (props: Props) {
 
   const { data: video } = useQuery<VideoData>(
     ["video", id],
-    () => fetch(`/fake-api/video/${id}.json`)
+    () => fetch(url(`/fake-api/video/${id}.json`))
       .then(res => res.json()),
     { placeholderData: { ...placeholderData, id } }
   );
