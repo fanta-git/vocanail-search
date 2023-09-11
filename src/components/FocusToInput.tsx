@@ -33,7 +33,9 @@ export default function FocusToInput (props: Props) {
     <Fade in={showButton}>
       <IconButton
         onClick={onClick}
-        colorScheme="teal"
+        variant='outline'
+        color="#58A8F8"
+        colorScheme="blue"
         fontSize={26}
         position="fixed"
         right={6}

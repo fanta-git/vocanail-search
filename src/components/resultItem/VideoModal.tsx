@@ -24,11 +24,11 @@ export default function VideoModal (props: Props) {
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          <Skeleton width={"calc(100% - 2rem)"} isLoaded={!isLoading}>
-            <Text>{video?.songTitle ?? "???"}</Text>
+          <Skeleton fitContent isLoaded={!isLoading}>
+            <Text>{video?.songTitle ?? "？？？？？？？？？？？？？？？？"}</Text>
           </Skeleton>
-          <Skeleton isLoaded={!isLoading}>
-            <Text fontSize={"sm"} color={"gray.500"}>{video?.artistString ?? "???"}</Text>
+          <Skeleton fitContent isLoaded={!isLoading}>
+            <Text fontSize={"sm"} color={"gray.500"}>{video?.artistString ?? "？？？？？？？？？？？？"}</Text>
           </Skeleton>
         </ModalHeader>
         <ModalCloseButton />
